@@ -15,6 +15,17 @@
                 Canvas2Image.saveAsPNG(canvas);
             }
         </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (!Notification) {
+          alert('Desktop notifications not available in your browser.'); 
+          return;
+        }
+
+        if (Notification.permission !== "granted")
+          Notification.requestPermission();
+    });
+  </script>
 </head>
 <body class="chat">
   <div class="w3-sidebar w3-bar-block w3-border-right" style="display:none" id="mySidebar">

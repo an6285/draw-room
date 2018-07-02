@@ -146,6 +146,18 @@ socket.on('updateUserList',function (users) {
   jQuery('#users').html(ol);
 });
 
+function notifyMe(time,from,message) {
+  if (Notification.permission !== "granted")
+    Notification.requestPermission();
+  else {
+    var notification = new Notification(from+' ('+time+')', {
+      icon: 'http://www.myiconfinder.com/uploads/iconsets/256-256-dd9a48c8e1ff8027f8ce4c201769f5e7.png',
+      body: message
+    });
+  }
+}
+
+
 socket.on('newMessage',function(message){
   jQuery('#feedback').html('');
   jQuery('#feedback').hide();
@@ -156,10 +168,12 @@ socket.on('newMessage',function(message){
     from:message.from,
     createdAt:formattedTime
   });
-
   jQuery('#messages').append(html);
+  if(jQuery('#mySidebar').is(':visible'))
+  {
+    notifyMe(formattedTime,message.from,message.text);
+  }
   scrollToBottom();
-
 });
 
 socket.on('newLocationMessage',function(message){
